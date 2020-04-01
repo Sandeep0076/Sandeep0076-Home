@@ -8,25 +8,65 @@
 <center><h1>Quick lookups</h1></center> 
 
 <table style="width:100%">
- 
-  <tr>
-    <td><h3>Splitting  the dataset into training and test dataset</h3></td>
-    <td><h3>Encoding categorical data</h3></td>
-  </tr>
+	<tr>
+		<td><h2><center>Data Pre Processing , Machine learning </center></h2>
+		</td>	
+	</tr>
+	<tr>
+		<td><h3>Importing the dataset</h3></td>
+		<td><h3>Splitting  the dataset into training and test dataset</h3></td>
+	</tr>
+	<tr>
+		<td>
+			dataset = pd.read_csv('Data.csv')<br>
+			X = dataset.iloc[:, :-1].values<br>
+			y = dataset.iloc[:, 3].values<br>
+		</td>
+		<td>
+			from sklearn.model_selection import train_test_split<br>
+			X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3, random_state=0)<br>
+			
+		</td>
+	</tr>
+	<tr>
+		<td><h3>Encoding categorical data</h3></td>
+		<td><h3>Polynomial fit</h3></td>
+	</tr>
     <tr>
-    <td>from sklearn.model_selection import train_test_split<br>
-		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3, random_state=0)<br>
-	</td>
-    <td>
-		# Encoding the Independent Variable<br>
-		from sklearn.compose import ColumnTransformer<br>
-		from sklearn.preprocessing import LabelEncoder, OneHotEncoder<br>
+	
+		<td>
+			# Encoding the Independent Variable<br>
+			from sklearn.compose import ColumnTransformer<br>
+			from sklearn.preprocessing import LabelEncoder, OneHotEncoder<br>
 
-		ct = ColumnTransformer([('encoder', OneHotEncoder(), [3])], remainder='passthrough')<br>
-		X = np.array(ct.fit_transform(X), dtype=np.float)<br>
-	</td>
-  </tr>
- 
+			ct = ColumnTransformer([('encoder', OneHotEncoder(), [3])], remainder='passthrough')<br>
+			X = np.array(ct.fit_transform(X), dtype=np.float)<br>
+		</td>
+		<td>
+			#first we transform into polynomial fit AND THEN  we fit that in linear model<br>
+			from sklearn.preprocessing import PolynomialFeatures<br>
+			polyreg = PolynomialFeatures(degree = 4)# at first i took 2,3 degree but 4 is giving better result<br>
+			X_poly = polyreg.fit_transform(X)<br>
+			#now fit<br>
+			lin_reg = LinearRegression()<br>
+			lin_reg.fit(X_poly, y)<br>
+
+		</td>
+	</tr>
+	<tr>
+		<td><h3>visualization</h3></td>
+		<td><h3>next topic</h3></td>
+	</tr>
+	<tr>
+		<td>
+			plt.scatter(X,y,color ='red')<br>
+			plt.plot(X,lin_reg.predict(polyreg.fit_transform(X)),color='blue')<br>
+			#using polyreg.fit and not X_poly because we can later just subsitute x and into x_grid ands not forget totransform<br>
+			plt.title('Truth or bluf poly')<br>
+		</td>
+		<td><h3>next topic</h3></td>
+	</tr>
+	
 </table>
 
 
