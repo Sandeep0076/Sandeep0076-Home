@@ -33,7 +33,6 @@
 		<td><h3>Polynomial fit</h3></td>
 	</tr>
     <tr>
-	
 		<td>
 			# Encoding the Independent Variable<br>
 			from sklearn.compose import ColumnTransformer<br>
@@ -54,8 +53,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td><h3>visualization</h3></td>
-		<td><h3>next topic</h3></td>
+		<td><h3>Visualization</h3></td>
+		<td><h3>Feature Scaling</h3></td>
 	</tr>
 	<tr>
 		<td>
@@ -64,9 +63,22 @@
 			#using polyreg.fit and not X_poly because we can later just subsitute x and into x_grid ands not forget totransform<br>
 			plt.title('Truth or bluf poly')<br>
 		</td>
-		<td><h3>next topic</h3></td>
+		<td>
+			from sklearn.preprocessing import StandardScaler<br>
+			sc_X = StandardScaler()<br>
+			sc_y = StandardScaler()<br>
+			X = sc_X.fit_transform(X)<br>
+			y = sc_y.fit_transform(y)<br>
+		</td>
 	</tr>
-	
+	<tr>
+		<td><h3>head1</h3></td>
+		<td><h3>head2</h3></td>
+	</tr>
+	<tr>
+		<td>detail</td>
+		<td>detail2</td>
+	</tr>
 </table>
 
 
