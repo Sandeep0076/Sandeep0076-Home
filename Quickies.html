@@ -53,7 +53,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td><h3>Visualization</h3></td>
+		<td><h3>Visualization of linear regression</h3></td>
 		<td><h3>Feature Scaling</h3></td>
 	</tr>
 	<tr>
@@ -65,20 +65,43 @@
 		</td>
 		<td>
 			from sklearn.preprocessing import StandardScaler<br>
-			sc_X = StandardScaler()<br>
-			sc_y = StandardScaler()<br>
-			X = sc_X.fit_transform(X)<br>
-			y = sc_y.fit_transform(y)<br>
+			sc = StandardScaler()<br>
+			X_train = sc.fit_transform(X_train)<br>
+			X_test = sc.transform(X_test)<br>
 		</td>
 	</tr>
 	<tr>
+		<td><h3>Logistic Regression</h3></td>
+		<td><h3>Visualization of confusion matrix</h3></td>
+	</tr>
+	<tr>
+		<td>from sklearn.linear_model import LogisticRegression</br>
+			classifier = LogisticRegression(random_state=0)</br>
+			classifier.fit(X_train,y_train)</br>
+		</td>
+		<td>from matplotlib.colors import ListedColormap</br>
+			X_set, y_set = X_train, y_train</br>
+			X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),</br>
+								 np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))</br>
+			plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</br>
+						 alpha = 0.75, cmap = ListedColormap(('red', 'green')))</br>
+			plt.xlim(X1.min(), X1.max())</br>
+			plt.ylim(X2.min(), X2.max())</br>
+			for i, j in enumerate(np.unique(y_set)):</br>
+				plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],</br>
+							c = ListedColormap(('red', 'green'))(i), label = j)</br>
+			plt.title('Logistic Regression (Training set)')</br>
+			plt.xlabel('Age')</br>
+			plt.ylabel('Estimated Salary')</br>
+			plt.legend()</br>
+			plt.show()</br>
+		</td>
+	</tr>
+		<tr>
 		<td><h3>head1</h3></td>
 		<td><h3>head2</h3></td>
 	</tr>
 	<tr>
-		<td>detail</td>
-		<td>detail2</td>
-	</tr>
 </table>
 
 
