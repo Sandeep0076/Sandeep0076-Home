@@ -5,11 +5,12 @@
 </head>
 <body background='bg.jpeg'>
 
-<center><h1>Quick lookups</h1></center> 
+<center><h1>Quick lookups</h1></center> </br>
+<center><h2>Machine Learning</h2></center> </br>
 
 <table style="width:100%">
 	<tr>
-		<td><h2><center>Data Pre Processing , Machine learning </center></h2>
+		<td><h2>Data Pre Processing </h2>
 		</td>	
 	</tr>
 	<tr>
@@ -57,6 +58,7 @@
 		<td><h3>Feature Scaling</h3></td>
 	</tr>
 	<tr>
+	
 		<td>
 			plt.scatter(X,y,color ='red')<br>
 			plt.plot(X,lin_reg.predict(polyreg.fit_transform(X)),color='blue')<br>
@@ -69,6 +71,40 @@
 			X_train = sc.fit_transform(X_train)<br>
 			X_test = sc.transform(X_test)<br>
 		</td>
+	</tr>
+	<tr>
+		<td><h3>SimpleLinearRegression</h3></td>
+		<td><h3>SupportVectorRegression</h3></td>
+	</tr>
+	<tr>
+		<td>from sklearn.linear_model import LinearRegression<br>
+			regressor = LinearRegression()<br>
+			regressor.fit(X_train, y_train<br>
+		</td>
+		<td>from sklearn.svm import SVR<br>
+			regressor = SVR(kernel = 'rbf')<br>
+			regressor.fit(X, y)<br>
+		</td>
+	</tr>
+	<tr>
+		<td><h3>DecisionTreeRegression</h3></td>
+		<td><h3>RandomForestRegression</h3></td>
+	</tr>
+	<tr>
+		<td>from sklearn.tree import DecisionTreeRegressor<br>
+			regressor = DecisionTreeRegressor(random_state=0)<br>
+			regressor.fit(X, y)<br>
+		</td>
+		<td>from sklearn.ensemble import RandomForestRegressor<br>
+			regressor = RandomForestRegressor(n_estimators = 300)<br>
+			regressor.fit(X, y)<br>
+		</td>
+	</tr>
+</table>
+<hr>
+<table style='width:100%'>
+	<tr>
+		<td><h2>Classification</h2></td>
 	</tr>
 	<tr>
 		<td><h3>Logistic Regression</h3></td>
@@ -97,11 +133,43 @@
 			plt.show()</br>
 		</td>
 	</tr>
-		<tr>
+	<tr>
+		<td><h3>KnnClassifier</h3></td>
+		<td><h3>Support Vector Machine</h3></td>
+	</tr>
+	<tr>
+		<td>from sklearn.neighbors import KNeighborsClassifier</br>
+			classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2)</br>
+			classifier.fit(X_train, y_train)</br>
+		</td>
+		<td>from sklearn.svm import SVC</br>
+			classifier = SVC(kernel = 'linear', random_state = 0)</br>
+			classifier.fit(X_train, y_train)</br>
+		</td>
+	</tr>
+	<tr>
+		<td><h3>Support Vector Machine, non linear kernal</h3></td>
+		<td><h3>NaiveBaise</h3></td>
+	</tr>
+	<tr>
+		<td>from sklearn.svm import SVC</br>
+			classifier = SVC(kernel = 'rbf', random_state = 0)</br>
+			classifier.fit(X_train, y_train)</br>
+		</td>
+		<td>
+			from sklearn.naive_bayes import GaussianNB</br>
+			classifier = GaussianNB()</br>
+			classifier.fit(X_train, y_train)</br>
+</td>
+	</tr>
+	<tr>
 		<td><h3>head1</h3></td>
 		<td><h3>head2</h3></td>
 	</tr>
 	<tr>
+		<td>Details</td>
+		<td>Details</td>
+	</tr>
 </table>
 
 
