@@ -162,16 +162,256 @@
 			classifier.fit(X_train, y_train)</br>
 </td>
 	</tr>
+	
+</table>
+<hr>
+
+<h2>Clustering</h2></br>
+<table style='width:100%'>	
 	<tr>
-		<td><h3>head1</h3></td>
-		<td><h3>head2</h3></td>
+	
+		<td><h3>KMEANS:find the optimal number of clusters</h3></td>
+		<td><h3>Fitting KMEANS and Visualizaion</h3></td>
 	</tr>
 	<tr>
-		<td>Details</td>
-		<td>Details</td>
+		<td>from sklearn.cluster import KMeans</br>
+			wcss = []</br>
+			for i in range(1, 11):</br>
+				kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)</br>
+				kmeans.fit(X)</br>
+				wcss.append(kmeans.inertia_)</br>
+			plt.plot(range(1, 11), wcss)</br>
+		</td>
+		<td>kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)</br>
+			y_kmeans = kmeans.fit_predict(X)</br>
+			# Visualising the clusters</br>
+			plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1], s = 100, c = 'red', label = 'Cluster 1')</br>
+			plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 100, c = 'blue', label = 'Cluster 2')..so on</br>
+
+		</td>
+	</tr>
+	<tr>
+		<td><h3>Hierarchical Clustering: Using the dendrogram to find the optimal number of clusters</h3></td>
+		<td><h3> Fitting Hierarchical Clustering</h3></td>
+	</tr>
+	<tr>
+		<td>
+			import scipy.cluster.hierarchy as sch</br>
+			dendrogram = sch.dendrogram(sch.linkage(X, method = 'ward'))</br>
+			plt.show()</br>
+		</td>
+		<td>from sklearn.cluster import AgglomerativeClustering</br>
+			hc = AgglomerativeClustering(n_clusters = 5, affinity = 'euclidean', linkage = 'ward')</br>
+			y_hc = hc.fit_predict(X)</br>
+			#Visualisation is same as KMEANS
+		</td>
 	</tr>
 </table>
+<hr>
+<h2>Assosiation rule learning</h2>
+<table style='width:100%'>	
+		<td><h3>Apriori</h3></td>
+		<td><h3> Eclad</h3></td>
+	</tr>
+	<tr>
+		<td>
+			dataset = pd.read_csv('Market_Basket_Optimisation.csv', header = None)</br>
+			#because it takes list as an argument
+			transactions = []</br>
+			for i in range(0, 7501):</br>
+				transactions.append([str(dataset.values[i,j]) for j in range(0, 20)])</br>
+			# Training Apriori on the dataset</br>
+			from apyori import apriori</br>
+			#these parameters are different according to dataset
+			rules = apriori(transactions, min_support = 0.003, min_confidence = 0.2, min_lift = 3, min_length = 2)</br>
+			# Visualising the results</br>
+			results = list(rules)</br>
+		</td>
+		<td>Same as Apriori just ony one argument min_support and see the frequencies which are bought together and sort decreasingly</br>
+		</td>
+	</tr>
+</table>
+	<hr>
+	<h2>Reinforcement Learning</h2>
+<table style='width:100%'>	
 
+	<tr>
+		<td><h3>Upper confidence bound </h3></td>
+		<td><h3> Thomspon Sampling</h3></td>
+	</tr>
+	<tr>
+		<td>
+			N = 10000</br>
+			d = 10</br>
+			ads_selected = []</br>
+			numbers_of_selections = [0] * d</br>
+			sums_of_rewards = [0] * d</br>
+			total_reward = 0</br>
+			for n in range(0, N):</br>
+				ad = 0</br>
+				max_upper_bound = 0</br>
+				for i in range(0, d):</br>
+					if (numbers_of_selections[i] > 0):</br>
+						average_reward = sums_of_rewards[i] / numbers_of_selections[i]</br>
+						delta_i = math.sqrt(3/2 * math.log(n + 1) / numbers_of_selections[i])</br>
+						upper_bound = average_reward + delta_i</br>
+					else:</br>
+						upper_bound = 1e400</br>
+					if upper_bound > max_upper_bound:</br>
+						max_upper_bound = upper_bound</br>
+						ad = i</br>
+				ads_selected.append(ad)</br>
+				numbers_of_selections[ad] = numbers_of_selections[ad] + 1</br>
+				reward = dataset.values[n, ad]</br>
+				sums_of_rewards[ad] = sums_of_rewards[ad] + reward</br>
+				total_reward = total_reward + reward</br>
 
+			# Visualising the results</br>
+			plt.hist(ads_selected)</br>
+		</td>
+		<td>import random</br>
+			N = 10000</br>
+			d = 10</br>
+			ads_selected = []</br>
+			numbers_of_rewards_1 = [0] * d</br>
+			numbers_of_rewards_0 = [0] * d</br>
+			total_reward = 0</br>
+			for n in range(0, N):</br>
+				ad = 0</br>
+				max_random = 0</br>
+				for i in range(0, d):</br>
+					random_beta = random.betavariate(numbers_of_rewards_1[i] + 1, numbers_of_rewards_0[i] + 1)</br>
+					if random_beta > max_random:</br>
+						max_random = random_beta</br>
+						ad = i</br>
+				ads_selected.append(ad)</br>
+				reward = dataset.values[n, ad]</br>
+				if reward == 1:</br>
+					numbers_of_rewards_1[ad] = numbers_of_rewards_1[ad] + 1</br>
+				else:</br>
+					numbers_of_rewards_0[ad] = numbers_of_rewards_0[ad] + 1</br>
+				total_reward = total_reward + reward</br>
+
+			# Visualising the results - Histogram</br>
+			plt.hist(ads_selected)</br>
+		</td>
+	</tr>
+</table>
+<hr>
+	<h2>Natural Language Processing</h2>
+<table style='width:100%'>	
+	<tr>
+		<td><h3>Cleaning the texts</h3></td>
+		<td><h3>Creating the Bag of Words model</h3></td>
+
+	</tr>
+	<tr>
+		<td>	
+			import re</br>
+			import nltk</br>
+			nltk.download('stopwords')</br>
+			from nltk.corpus import stopwords</br>
+			from nltk.stem.porter import PorterStemmer</br>
+			corpus = []</br>
+			for i in range(0, 1000):</br>
+				review = re.sub('[^a-zA-Z]', ' ', dataset['Review'][i])</br>
+				review = review.lower()</br>
+				review = review.split()</br>
+				ps = PorterStemmer()</br>
+				review = [ps.stem(word) for word in review if not word in set(stopwords.words('english'))]</br>
+				review = ' '.join(review)</br>
+				corpus.append(review)</br>
+		</td>
+		<td>
+			from sklearn.feature_extraction.text import CountVectorizer</br>
+			cv = CountVectorizer(max_features = 1500)</br>
+			X = cv.fit_transform(corpus).toarray()</br>
+			y = dataset.iloc[:, 1].values</br>
+			</br>
+			# Splitting the dataset into the Training set and Test set</br>
+			#same as before
+			# Fitting Naive Bayes to the Training set</br>
+			from sklearn.naive_bayes import GaussianNB</br>
+			classifier = GaussianNB()</br>
+			classifier.fit(X_train, y_train)</br>
+			</br>
+			# Predicting the Test set results</br>
+			y_pred = classifier.predict(X_test)</br>
+			</br>
+			# Making the Confusion Matrix</br>
+			from sklearn.metrics import confusion_matrix</br>
+			cm = confusion_matrix(y_test, y_pred)</br>
+		</td>
+	</tr>
+</table>
+<hr>
+	<h2>Deep Learning</h2>	
+	<table style='width:100%'>	
+
+	<tr>
+		<td><h3>Artificial Neural Network</h3></td>
+		<td><h3> Making ANN</h3></td>
+	</tr>
+	<tr>
+		<td>
+			# Importing the libraries</br>
+			# Importing the dataset</br>
+			# Encoding categorical data</br>
+			# Splitting the dataset into the Training set and Test set</br>
+			# Feature Scaling</br>
+			
+		</td>
+		<td>
+			# Importing the Keras libraries and packages
+			import keras</br>
+			from keras.models import Sequential</br>
+			from keras.layers import Dense</br>
+
+			# Initialising the ANN</br>
+			classifier = Sequential()</br>
+
+			# Adding the input layer and the first hidden layer</br>
+			classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu', input_dim = 11))</br>
+
+			# Adding the second hidden layer</br>
+			classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))</br>
+
+			# Adding the output layer</br>
+			classifier.add(Dense(output_dim = 1, init = 'uniform', activation = 'sigmoid'))</br>
+
+			# Compiling the ANN</br>
+			classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])</br>
+
+			# Fitting the ANN to the Training set</br>
+			classifier.fit(X_train, y_train, batch_size = 10, nb_epoch = 100)</br>
+
+			# Part 3 - Making the predictions and evaluating the model</br>
+
+			# Predicting the Test set results</br>
+			y_pred = classifier.predict(X_test)</br>
+			y_pred = (y_pred > 0.5)</br> # this will make into yes or no
+
+			# Making the Confusion Matrix</br>
+			from sklearn.metrics import confusion_matrix</br>
+			cm = confusion_matrix(y_test, y_pred)</br>
+		</td>
+	</tr>
+</table>
 </body>
 </html>
+
+<table style='width:100%'>	
+
+	<tr>
+		<td><h3>Head1</h3></td>
+		<td><h3> Head2</h3></td>
+	</tr>
+	<tr>
+		<td>
+			details</br>
+		</td>
+		<td>
+			details</br>
+		</td>
+	</tr>
+</table>
